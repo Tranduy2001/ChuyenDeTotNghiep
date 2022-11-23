@@ -1,0 +1,72 @@
+﻿@model WebAppChamThiOl.Entities.QUIZ
+
+@{
+    ViewBag.Title = "Chi tiết câu hỏi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.CATEGORY.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.CATEGORY.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Description)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Image)
+                            </dt>
+
+                            <dd>
+                                <img width="150" src="@Model.Image" />
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.QuizType)
+                            </dt>
+
+                            <dd>
+                                @Model.QuizType?.GetDisplayName()
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer">
+                        @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Trở về danh sách", "Index")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -1,0 +1,149 @@
+﻿@using WebAppChamThiOl.Models;
+
+@model PagingResult<WebAppChamThiOl.Data.USER>
+
+@{
+    ViewBag.Title = "Danh sách người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        STT
+                                    </th>
+                                    <th scope="col">
+                                        Tên tài khoản
+                                    </th>
+
+                                    @*<th scope="col">
+                                    Môn học
+                                    </th>*@
+                                    <th scope="col">
+                                        Họ và tên
+                                    </th>
+                                    <th scope="col">
+                                        Vai trò tài khoản
+                                    </th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var index = 0;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    ++index;
+                                    <tr>
+                                        <td>
+                                            @index
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RoleName)
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", new { userName = item.UserName })" class="btn btn-primary">
+                                                <i class="nav-icon fas fa-edit"></i>
+                                            </a>
+                                            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-danger" onclick="deleteModel(@item.Id)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        @*<ul class="pagination pagination-sm m-0 float-right">
+                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                        </ul>*@
+                        <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: space-between; justify-content: space-between; align-items: center;">
+                            Trang @(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages
+                            <ul class="pagination">
+                                @{
+                                    if (Model.HasPreviousPage)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", new { monHoc = Context.Request.Query["monHoc"], keyWord = Context.Request.Query["keyWord"], page = Model.PageIndex - 1 })"
+                                           class="btn btn-default">
+                                                Trước
+                                            </a>
+                                        </li>
+                                    }
+                                    for (int i = Model.PageIndex; i <= Math.Min(Model.PageIndex + 9, Model.TotalPages); i++)
+                                    {
+                                        <li class="@(i == Model.PageIndex ? "page-item active" : "page-item")">
+                                            <a class="page-link" href="@Url.Action("Index", new { monHoc = Context.Request.Query["monHoc"], keyWord = Context.Request.Query["keyWord"], page = i })">@i</a>
+                                        </li>
+                                    }
+                                    if (Model.HasNextPage)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", new { monHoc = Context.Request.Query["monHoc"], keyWord = Context.Request.Query["keyWord"], page = Model.PageIndex + 1 })"
+                                           class="btn btn-default">
+                                                Tiếp
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function deleteModel(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa bản ghi này?")) {
+                let data = {
+                    id: id
+                };
+                var vm = this;
+                $.ajax({
+                    url: '/account/delete/' + id,
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (res) {
+                        if (res) {
+                            location.reload();
+                        }
+                        else {
+                            alert('Xảy ra lỗi, liên hệ quản trị viên!')
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+}

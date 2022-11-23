@@ -1,0 +1,93 @@
+﻿@model WebAppChamThiOl.Entities.LOG_THI
+
+@{
+    ViewBag.Title = "Chi tiết đề và thí sinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DeId)
+                            </dt>
+
+                            <dd>
+                                @Model.DE?.Name
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.UserId)
+                            </dt>
+
+                            <dd>
+                                @Model.USER?.FullName
+                            </dd>
+
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SBD)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.SBD)
+                            </dd>
+
+                            
+                        </dl>
+                    </div>
+                    <div class="card-footer">
+                        @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Trở về danh sách", "Index")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div class="container">
+    <div class="bg-white">
+        <div class="row">
+            <h2>Chi tiết đề</h2>
+
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CreatedDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Trở về danh sách", "Index")
+            </p>
+        </div>
+    </div>
+</div>*@

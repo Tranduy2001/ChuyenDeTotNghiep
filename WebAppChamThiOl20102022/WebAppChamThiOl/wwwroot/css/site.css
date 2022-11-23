@@ -1,0 +1,87 @@
+body {
+    /* padding-top: 50px;
+    padding-bottom: 20px;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.icon {
+}
+
+    .icon::after {
+        display: block;
+        width: 70px;
+        height: 70px;
+        margin: auto;
+        margin-top: 3.4px;
+    }
+
+.icon-toan::after {
+    content: '';
+    background-image: url(/content/theme/images/icon-toan.png);
+    background-position: 0px 0px;
+    /* background-color: red; */
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.icon-ly::after {
+    content: '';
+    background-image: url(/content/theme/images/icon-ly.png);
+    background-position: 0px 0px;
+    /* background-color: red; */
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.icon-hoa::after {
+    content: '';
+    background-image: url(/content/theme/images/icon-hoa.png);
+    background-position: 0px 0px;
+    /* background-color: red; */
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.icon-anh::after {
+    content: '';
+    background-image: url(/content/theme/images/icon-anh.png);
+    background-position: 0px 0px;
+    /* background-color: red; */
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.bg-white {
+    padding: 40px;
+    background-color: white;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.bg__first {
+    background-size: contain;
+}
+
+#heading-pages img {
+    height: 300px;
+}

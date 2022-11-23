@@ -1,0 +1,58 @@
+﻿@using WebAppChamThiOl.Models;
+@model List<WebAppChamThiOl.Models.KetQuaChamThiViewModel>
+@{
+    ViewBag.Title = "Kết quả chấm thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    Số báo danh
+                                </th>
+                                <th>
+                                    Điểm
+                                </th>
+                                <th>
+                                    Số câu trả lời đúng
+                                </th>
+                                <th>
+                                    Số câu hỏi
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.SBD
+                                    </td>
+                                    <td>
+                                        @item.Diem
+                                    </td>
+                                    <td>
+                                        @item.SoCauTraLoiDung
+                                    </td>
+                                    <td>
+                                        @item.SoLuongCauHoi
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

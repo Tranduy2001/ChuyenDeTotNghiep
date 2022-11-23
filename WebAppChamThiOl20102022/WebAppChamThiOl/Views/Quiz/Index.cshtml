@@ -1,0 +1,295 @@
+﻿@using WebAppChamThiOl.Models;
+
+@model PagingResult<WebAppChamThiOl.Entities.QUIZ>
+@{
+    ViewBag.Title = "Danh sách câu hỏi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                                @*<input type="hidden" asp-for="de" />*@
+
+                                <label for="inputPassword2" class="sr-only">Đề</label>
+                                @*@Html.DropDownList("de", null, "--- Chọn ---", new { @class = "form-control" })*@
+                                @*<label asp-for="SubjectId" class="control-label"></label>*@
+                                <select id="category" class="form-control" asp-items="@ViewBag.CategoryList">
+                                    <option value="">--- Chọn ---</option>
+                                </select>
+                            </div>
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="inputPassword2" class="sr-only">Tên câu hỏi</label>
+                                <input type="text" class="form-control" id="keyword" name="keyword" value="@ViewBag.Keyword" placeholder="Tên câu hỏi">
+                            </div>
+                            <button type="button" onclick="searchForm()" class="btn btn-primary mb-2">Tìm kiếm</button>
+                        </form>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    Tên thể loại
+                                </th>
+                                <th>
+                                    Tên câu hỏi
+                                </th>
+                                <th>
+                                    Mô tả
+                                </th>
+                                <th>
+                                    Loại câu hỏi
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CATEGORY.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (item.QuizType == QuizTypeEnum.QuizPicture)
+                                            {
+                                                <img width="150" src="@item.Image" />
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.QuizType?.GetDisplayName()
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">
+                                            <i class="nav-icon fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Index", "ResultQuiz", new { quizId = item.Id})" class="btn btn-success" title="Quản lý câu trả lời">
+                                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger" onclick="deleteModel(@item.Id)">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+
+                        <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: space-between; justify-content: space-between; align-items: center;">
+                            Trang @(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages
+                            <ul class="pagination">
+                                @{
+                                    if (Model.HasPreviousPage)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", new { de = Context.Request.Query["de"], keyword = Context.Request.Query["keyword"], page = Model.PageIndex - 1 })"
+                                           class="btn btn-default">
+                                                Trước
+                                            </a>
+                                        </li>
+                                    }
+                                    for (int i = Model.PageIndex; i <= Math.Min(Model.PageIndex + 9, Model.TotalPages); i++)
+                                    {
+                                        <li class="@(i == Model.PageIndex ? "page-item active" : "page-item")">
+                                            <a class="page-link" href="@Url.Action("Index", new { de = Context.Request.Query["de"], keyword = Context.Request.Query["keyword"], page = i })">@i</a>
+                                        </li>
+                                    }
+                                    if (Model.HasNextPage)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", new { de = Context.Request.Query["de"], keyword = Context.Request.Query["keyword"], page = Model.PageIndex + 1 })"
+                                           class="btn btn-default">
+                                                Tiếp
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*
+<div class="parallax">
+    <div class="bg-white">
+        <div class="container">
+            <h2>Danh sách câu hỏi</h2>
+            <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="inputPassword2" class="sr-only">Đề</label>
+                    <select id="category" class="form-control" asp-items="@ViewBag.CategoryList">
+                        <option value="">--- Chọn ---</option>
+                    </select>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="inputPassword2" class="sr-only">Tên câu hỏi</label>
+                    <input type="text" class="form-control" id="keyword" name="keyword" value="@ViewBag.Keyword" placeholder="Tên câu hỏi">
+                </div>
+                <button type="button" onclick="searchForm()" class="btn btn-primary mb-2">Tìm kiếm</button>
+            </form>
+            <p style="margin-top:30px;">
+                <a href="@Url.Action("Create")" class="btn btn-success">Thêm mới</a>
+            </p>
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Tên thể loại
+                    </th>
+                    <th>
+                        Tên câu hỏi
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Loại câu hỏi
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CATEGORY.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @{
+                                if (item.QuizType == QuizTypeEnum.QuizPicture)
+                                {
+                                    <img width="150" src="@item.Image" />
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                }
+                            }
+                        </td>
+                        <td>
+                            @item.QuizType?.GetDisplayName()
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">
+                                <i class="nav-icon fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Index", "ResultQuiz", new { quizId = item.Id})" class="btn btn-success" title="Quản lý câu trả lời">
+                                <i class="fa fa-wrench" aria-hidden="true"></i>
+                            </a>
+                            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger" onclick="deleteModel(@item.Id)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: space-between; justify-content: space-between; align-items: center;">
+                Trang @(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages
+                <ul class="pagination">
+                    @{
+                        if (Model.HasPreviousPage)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { de = Context.Request.Query["de"], keyword = Context.Request.Query["keyword"], page = Model.PageIndex - 1 })"
+                               class="btn btn-default">
+                                    Trước
+                                </a>
+                            </li>
+                        }
+                        for (int i = Model.PageIndex; i <= Math.Min(Model.PageIndex + 9, Model.TotalPages); i++)
+                        {
+                            <li class="@(i == Model.PageIndex ? "page-item active" : "page-item")">
+                                <a class="page-link" href="@Url.Action("Index", new { de = Context.Request.Query["de"], keyword = Context.Request.Query["keyword"], page = i })">@i</a>
+                            </li>
+                        }
+                        if (Model.HasNextPage)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { de = Context.Request.Query["de"], keyword = Context.Request.Query["keyword"], page = Model.PageIndex + 1 })"
+                               class="btn btn-default">
+                                    Tiếp
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@section Scripts {
+    <script>
+        function deleteModel(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa bản ghi này?")) {
+                let data = {
+                    id: id
+                };
+                var vm = this;
+                $.ajax({
+                    url: '/Quiz/delete/' + id,
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (res) {
+                        if (res) {
+                            location.reload();
+                        }
+                        else {
+                            alert('Xảy ra lỗi, liên hệ quản trị viên!')
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+
+        function searchForm() {
+            let data = {
+                categoryId: $("#category").find("option:selected").val(),
+                keyword: $('#keyword').val()
+            }
+            let url = "/Quiz";
+            if (data.categoryId) {
+                url += `?categoryId=${data.categoryId}`;
+                if (data.keyword) {
+                    url += `&keyword=${data.keyword}`;
+                }
+            }
+            else {
+                if (data.keyword) {
+                    url += `?keyword=${data.keyword}`;
+                }
+            }
+
+            location.href = url;
+        }
+    </script>
+        }

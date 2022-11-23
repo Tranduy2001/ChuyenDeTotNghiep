@@ -1,0 +1,48 @@
+
+
+html, css, jquery, bootstrap, ajax
+c#, entity framework, linq
+
+thư viện ngoài
+Closedxml: export excel
+
+mô hình sử dụng: MVC
+
+
+
+.net core 6.0
+
+-- Cần làm
+*deploy py
+xử lý nhiều ảnh đồng thời
+
+# import cv2 as cv  #  Thư viện cv2 để xử lý ảnh 
+# import json
+# from my_func import *
+
+# width, height = 700, 900
+
+
+# img = cv.imread("Img/01.png")
+# # cv.imshow('Display Image', img)
+# # cv.waitKey(0)
+# img = cv.resize(img, (width, height))
+
+# sbd_img = img_preprocessing(img[295:535, 130:270]) 
+
+# #sử dụng ma trận tọa độ 2 chiều để xác định tọa độ của phần sbd --- mò
+# data = {}
+# data['data'] = {}
+# data['data']['sbd'] = get_mark_sbd(sbd_img)
+
+
+# data['data']['answer'] = get_score(img)
+# data = json.dumps(data)
+# with open('data.json', "w") as f:
+#     json.dump(data, f, indent = 4)
+
+# import cv2 
+# img = cv2.imread("Img/01.png")
+# px = img[650:950, 260:410]
+# cv2.imshow('Region Of Interest', px)
+# cv2.waitKey(0)

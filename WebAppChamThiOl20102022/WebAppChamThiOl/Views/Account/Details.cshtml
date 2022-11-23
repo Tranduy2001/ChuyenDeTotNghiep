@@ -1,0 +1,55 @@
+﻿@model WebAppChamThiOl.Data.USER
+
+@{
+    ViewBag.Title = "Chi tiết người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.UserName)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.UserName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FullName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Role)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.RoleName)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer">
+                        @Html.ActionLink("Sửa", "Edit", new { userName = Model.UserName }) |
+                        @Html.ActionLink("Trở về trang danh sách", "Index")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

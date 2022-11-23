@@ -1,0 +1,104 @@
+﻿@model WebAppChamThiOl.Entities.LOG_THI
+
+@{
+    ViewBag.Title = "Sửa đề và thí sinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="card-body">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.CreatedDate)
+                            @Html.HiddenFor(model => model.UserId)
+                            @Html.HiddenFor(model => model.DeId)
+                            <div class="form-group">
+                                <label asp-for="DeId" class="control-label"></label>
+                                <select id="DeId" class="form-control" asp-for="DeId" asp-items="@ViewBag.CategoryList">
+                                    @*<option value="">--- Chọn ---</option>*@
+                                </select>
+                                <span asp-validation-for="DeId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="UserId" class="control-label"></label>
+                                <select id="UserId" class="form-control" asp-for="UserId" asp-items="@ViewBag.UserList">
+                                    @*<option value="">--- Chọn ---</option>*@
+                                </select>
+                                <span asp-validation-for="UserId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SBD, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.SBD, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.SBD, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*
+
+<div class="container">
+    <div class="bg-white">
+        <h2>Sửa đề</h2>
+        <div class="row">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.CreatedDate)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Sửa" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div>
+            @Html.ActionLink("Trở về danh sách", "Index")
+        </div>
+
+    </div>
+</div>*@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

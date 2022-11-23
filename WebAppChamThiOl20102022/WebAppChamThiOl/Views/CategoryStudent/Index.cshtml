@@ -1,0 +1,149 @@
+﻿@using WebAppChamThiOl.Models;
+
+@model PagingResult<WebAppChamThiOl.Entities.LOG_THI>
+
+@{
+    ViewBag.Title = "Danh sách đề và thí sinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        @*<form class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="inputPassword2" class="sr-only">Môn học</label>
+                                @Html.DropDownList("monHoc", null, "--- Chọn ---", new { @class = "form-control" })
+                            </div>
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="inputPassword2" class="sr-only">Tên thể loại</label>
+                                <input type="text" class="form-control" id="keyWord" name="keyWord" placeholder="Tên đề" value="@ViewBag.Keyword">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+                        </form>*@
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        STT
+                                    </th>
+                                    @*<th scope="col">
+                                        Môn học
+                                    </th>*@
+                                    <th scope="col">
+                                        Tên đề thi
+                                    </th>
+                                    <th scope="col">
+                                        Số báo danh
+                                    </th>
+                                    <th scope="col">
+                                        Thí sinh
+                                    </th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            @{var index = 0;}
+                            @foreach (var item in Model)
+                            {
+                                ++index;
+                                <tr class="tr-data">
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        @item.DE?.Name
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SBD)
+                                    </td>
+                                    <td>
+                                        @item.USER?.FullName
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">
+                                            <i class="nav-icon fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger" onclick="deleteModel(@item.Id)">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: space-between; justify-content: space-between; align-items: center;">
+                            Trang @(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages
+                            <ul class="pagination">
+                                @{
+                                    if (Model.HasPreviousPage)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", new { monHoc = Context.Request.Query["monHoc"], keyWord = Context.Request.Query["keyWord"], page = Model.PageIndex - 1 })"
+                                           class="btn btn-default">
+                                                Trước
+                                            </a>
+                                        </li>
+                                    }
+                                    for (int i = Model.PageIndex; i <= Math.Min(Model.PageIndex + 9, Model.TotalPages); i++)
+                                    {
+                                        <li class="@(i == Model.PageIndex ? "page-item active" : "page-item")">
+                                            <a class="page-link" href="@Url.Action("Index", new { monHoc = Context.Request.Query["monHoc"], keyWord = Context.Request.Query["keyWord"], page = i })">@i</a>
+                                        </li>
+                                    }
+                                    if (Model.HasNextPage)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", new { monHoc = Context.Request.Query["monHoc"], keyWord = Context.Request.Query["keyWord"], page = Model.PageIndex + 1 })"
+                                           class="btn btn-default">
+                                                Tiếp
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function deleteModel(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa bản ghi này?")) {
+                let data = {
+                    id: id
+                };
+                var vm = this;
+                $.ajax({
+                    url: '/CategoryStudent/delete/' + id,
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (res) {
+                        if (res) {
+                            location.reload();
+                        }
+                        else {
+                            alert('Xảy ra lỗi, liên hệ quản trị viên!')
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+}
